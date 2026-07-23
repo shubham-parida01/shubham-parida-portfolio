@@ -1,0 +1,276 @@
+/* ── Smooth scroll behavior ─────────────────────────────── */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ── Splash overlay ─────────────────────────────────────── */
+.splash-overlay {
+    transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: transform;
+}
+
+.splash-overlay.is-hidden {
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+/* Lock body scroll while splash is visible */
+body.no-scroll {
+    overflow: hidden;
+}
+
+/* ── Section background color transitions ───────────────── */
+section[id] {
+    transition: background-color 0.5s ease;
+}
+
+/* ── Reveal-on-scroll elements ──────────────────────────── */
+/*
+  Elements start invisible and shifted down.
+  The transition only applies to opacity and transform — keeping
+  delay-* classes from fighting each other. We reset the delay
+  to 0 when the element is NOT yet animated so that the initial
+  hidden state is instantaneous (no lingering delay on load).
+*/
+.reveal-element {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: none; /* no transition until we're ready to animate */
+    will-change: opacity, transform;
+}
+
+/* When the parent section or the element itself is triggered */
+.reveal-section.animate-in .reveal-element,
+.reveal-element.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Staggered delays — only active when animating IN */
+.reveal-section.animate-in .delay-100,
+.reveal-element.animate-in.delay-100 { transition-delay: 80ms;  }
+.reveal-section.animate-in .delay-200,
+.reveal-element.animate-in.delay-200 { transition-delay: 160ms; }
+.reveal-section.animate-in .delay-300,
+.reveal-element.animate-in.delay-300 { transition-delay: 240ms; }
+.reveal-section.animate-in .delay-400,
+.reveal-element.animate-in.delay-400 { transition-delay: 320ms; }
+.reveal-section.animate-in .delay-500,
+.reveal-element.animate-in.delay-500 { transition-delay: 400ms; }
+
+/* ── Hero-specific entrance (after splash dismissal) ──────── */
+.hero-reveal .reveal-element {
+    transform: translateY(44px);
+}
+/* Hero stagger — only kicks in once animate-in is on the section */
+.hero-reveal.animate-in .reveal-element {
+    transition-duration: 0.85s;
+}
+.hero-reveal.animate-in .delay-100 { transition-delay: 80ms;  }
+.hero-reveal.animate-in .delay-200 { transition-delay: 220ms; }
+.hero-reveal.animate-in .delay-300 { transition-delay: 360ms; }
+.hero-reveal.animate-in .delay-400 { transition-delay: 500ms; }
+.hero-reveal.animate-in .delay-500 { transition-delay: 640ms; }
+
+/* ── Lazy-load images ───────────────────────────────────── */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* ── Active nav indicator ───────────────────────────────── */
+.nav-link {
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #4C6E9E;
+    border-radius: 2px;
+    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.active-nav {
+    color: #111416 !important;
+}
+.active-nav::after {
+    width: 100%;
+}
+
+/* ── Nav fade-in ────────────────────────────────────────── */
+#top-nav {
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-8px);
+}
+#top-nav.nav-visible {
+    opacity: 1 !important;
+    transform: translateY(0);
+}
+
+/* ── Page transition curtain ────────────────────────────── */
+#page-transition-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--color-bg-secondary, #f0f0f0);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    pointer-events: none;
+    will-change: transform;
+}
+#page-transition-curtain.curtain-in {
+    animation: curtainIn 0.38s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+#page-transition-curtain.curtain-out {
+    animation: curtainOut 0.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+    transform-origin: top;
+}
+
+@keyframes curtainIn {
+    from { transform: scaleY(0); transform-origin: bottom; }
+    to   { transform: scaleY(1); transform-origin: bottom; }
+}
+@keyframes curtainOut {
+    from { transform: scaleY(1); transform-origin: top; }
+    to   { transform: scaleY(0); transform-origin: top; }
+}
+
+/* ── Float animation for 3D visual ──────────────────────── */
+@keyframes float {
+    0%   { transform: translateY(0px);   }
+    50%  { transform: translateY(-14px); }
+    100% { transform: translateY(0px);   }
+}
+.animate-float {
+    animation: float 5s ease-in-out infinite;
+}
+
+/* ── Scroll-down bounce indicator ───────────────────────── */
+@keyframes softBounce {
+    0%, 100% { transform: translateY(0);    opacity: 1;    }
+    50%       { transform: translateY(8px);  opacity: 0.5;  }
+}
+.animate-bounce {
+    animation: softBounce 1.8s ease-in-out infinite;
+}
+
+/* ── Project accordion ──────────────────────────────────── */
+.project-trigger {
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+}
+.project-trigger:focus-visible {
+    outline: 2px solid #4C6E9E;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* Body panel: smooth height reveal via max-height */
+.project-body {
+    transition: max-height 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity    0.4s  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+}
+.project-body.is-open {
+    opacity: 1;
+}
+
+/* Chevron rotates 180° when open */
+.project-card.is-open .project-chevron {
+    transform: rotate(180deg);
+}
+
+/* Subtle background highlight on open card */
+.project-card.is-open {
+    background: linear-gradient(180deg, rgba(76,110,158,0.04) 0%, transparent 100%);
+    border-radius: 12px;
+    border-top-color: #4C6E9E;
+}
+
+/* ── Accessibility: Focus-Visible & Skip Link ───────────── */
+a:focus-visible, button:focus-visible {
+    outline: 2px solid #4C6E9E;
+    outline-offset: 3px;
+}
+
+.skip-link:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* ── Masonry Gallery ────────────────────────────────────── */
+.masonry-gallery {
+    column-count: 2;
+    column-gap: 1.5rem;
+    width: 100%;
+}
+@media (min-width: 768px) {
+    .masonry-gallery {
+        column-count: 3;
+    }
+}
+@media (min-width: 1024px) {
+    .masonry-gallery {
+        column-count: 4;
+    }
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--color-border-light);
+    transform: translateZ(0);
+}
+.masonry-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.masonry-item:hover img {
+    transform: scale(1.05);
+}
+
+/* ── Achievement accordion ───────────────────────────────── */
+.achievement-body {
+    transition: max-height 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity    0.4s  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+}
+.achievement-body.is-open {
+    opacity: 1;
+}
+.achievement-card.is-open .achievement-chevron {
+    transform: rotate(180deg);
+}
+
+/* ── Reduced Motion Preference (WCAG 2.1) ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .splash-overlay, .reveal-element, .project-body, .achievement-body, #top-nav {
+        transition: none !important;
+    }
+}
