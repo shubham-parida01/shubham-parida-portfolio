@@ -7,7 +7,7 @@
 <meta name="description" content="Portfolio of Shubham Parida — B.Tech CSE Student at SOA University, National Hackathon Winner, AI/ML & Backend Engineer, Published Researcher."/>
 
 <!-- Security: Enhanced Content Security Policy -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
 
 <!-- Resource Preconnections -->
 <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -61,8 +61,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script src="js/tailwind-config.js"></script>
+<link href="css/tailwind.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body class="bg-surface text-text-primary font-body-main antialiased selection:bg-accent-blue selection:text-white no-scroll">
@@ -87,7 +86,7 @@
 
 <!-- ═══ Navigation ═══ -->
 <header class="bg-surface/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-border-light/10" style="opacity:0;" id="top-nav">
-  <nav class="flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto">
+  <nav class="flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto" aria-label="Main navigation">
     <a class="font-headline-card text-headline-card font-bold text-primary tracking-tight" href="#about">Shubham Parida</a>
     <div class="hidden md:flex items-center gap-8 font-body-main text-body-main">
       <a class="nav-link text-text-secondary hover:text-primary transition-colors" href="#about">About</a>
@@ -101,6 +100,7 @@
   </nav>
 </header>
 
+<main id="main-content">
 <!-- ═══ Hero / About Section ═══ -->
 <section class="min-h-screen w-full flex items-center justify-center relative reveal-section hero-reveal bg-surface px-8 pt-20" id="about">
   <div class="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-center py-16">
@@ -1013,12 +1013,13 @@
     <div class="md:col-span-7 reveal-element delay-100">
       <h2 class="font-display-light text-display-light text-primary mb-4">Let's Connect</h2>
       <p class="text-text-secondary mb-8">Open to research fellowships, AI/ML collaborations, and interesting engineering challenges.</p>
-      <form class="space-y-4 max-w-lg">
+      <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4 max-w-lg">
+        <input type="hidden" name="access_key" value="6e46d0ef-08e0-4605-9c9c-ec29f415bfb3">
         <div class="grid grid-cols-2 gap-4">
-          <input class="bg-bg-input border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-accent-blue" placeholder="Name" aria-label="Name" type="text" required/>
-          <input class="bg-bg-input border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-accent-blue" placeholder="Email" aria-label="Email" type="email" required/>
+          <input class="bg-bg-input border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-accent-blue" placeholder="Name" aria-label="Name" name="name" type="text" required/>
+          <input class="bg-bg-input border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-accent-blue" placeholder="Email" aria-label="Email" name="email" type="email" required/>
         </div>
-        <textarea class="w-full bg-bg-input border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-accent-blue" placeholder="Message" aria-label="Message" rows="5" required></textarea>
+        <textarea class="w-full bg-bg-input border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-accent-blue" placeholder="Message" aria-label="Message" name="message" rows="5" required></textarea>
         <button class="bg-primary text-white px-8 py-3 rounded-full font-label-pill text-label-pill uppercase tracking-widest hover:bg-primary-container transition-all" type="submit">Send Message</button>
       </form>
     </div>
@@ -1074,6 +1075,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- ═══ Footer ═══ -->
 <footer class="w-full py-8 px-8 border-t border-border-light bg-surface">
